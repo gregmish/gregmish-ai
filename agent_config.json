@@ -1,0 +1,7 @@
+{
+  "model_name": "orca-mini-3b-gguf2-q4_0.gguf",
+  "auto_approve": false,
+  "max_iterations": 15,
+  "temperature": 0.7,
+  "max_tokens": 2048
+}

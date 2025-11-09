@@ -1,0 +1,59 @@
+{
+  "learned_facts": {},
+  "conversation_history": [
+    {
+      "user": "What is the capital of France?",
+      "timestamp": "2025-11-03T04:57:55.101651"
+    },
+    {
+      "user": "What is the capital of France?",
+      "timestamp": "2025-11-03T04:58:41.347314"
+    },
+    {
+      "user": "Can you take a screenshot?",
+      "timestamp": "2025-11-03T04:59:00.700176"
+    },
+    {
+      "user": "i want you to learn how to fully use gumroad",
+      "timestamp": "2025-11-03T05:00:47.299017"
+    },
+    {
+      "user": "i have my own gumroad i just want you to learn how to use it like uploading products for sale",
+      "timestamp": "2025-11-03T05:04:31.819858"
+    },
+    {
+      "user": "i will sell digital downloads and books",
+      "timestamp": "2025-11-03T05:05:21.159888"
+    },
+    {
+      "user": "What is the capital of France?",
+      "timestamp": "2025-11-03T05:07:37.562408"
+    },
+    {
+      "user": "What is the capital of France?",
+      "timestamp": "2025-11-03T05:07:58.602158"
+    },
+    {
+      "user": "Can you take a screenshot?",
+      "timestamp": "2025-11-03T05:08:17.194811"
+    },
+    {
+      "user": "i want you to learn how to make me a millionair",
+      "timestamp": "2025-11-03T05:15:04.934844"
+    },
+    {
+      "user": "i want you to help me make money",
+      "timestamp": "2025-11-03T05:18:23.886649"
+    },
+    {
+      "user": "i need you to promote the products i have for sale on gumroad",
+      "timestamp": "2025-11-03T05:19:09.917742"
+    },
+    {
+      "user": "all of them",
+      "timestamp": "2025-11-03T05:19:40.510203"
+    }
+  ],
+  "skills_learned": [],
+  "mistakes_made": []
+}

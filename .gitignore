@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+
+# AI Models (too large for GitHub)
+*.gguf
+*.bin
+*.safetensors
+models/
+.cache/
+
+# Screenshots & Media
+screenshots/
+social_media_content/
+*.mp4
+*.mp3
+*.wav
+*.png
+*.jpg
+*.jpeg
+
+# Database
+*.sqlite3
+*.db
+chroma_db/
+agent_memory/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+*.key
+
+# Temporary files
+*.tmp
+temp/
