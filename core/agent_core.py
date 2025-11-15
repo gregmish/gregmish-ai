@@ -56,11 +56,11 @@ class AgentCore:
             result = self._execute_step(step)
             results.append(result)
             
-            if result['status'] == 'error':
-                print(f"❌ Step failed: {result['error']}")
+            if result.get('status') == 'error':
+                print(f"❌ Step failed: {result.get('error', 'Unknown error')}")
                 # Try to recover
-                retry_result = self._retry_step(step, result['error'])
-                if retry_result['status'] == 'success':
+                retry_result = self._retry_step(step, result.get('error', 'Unknown error'))
+                if retry_result.get('status') == 'success':
                     print(f"✅ Retry succeeded!")
                     results[-1] = retry_result
                 else:
@@ -135,18 +135,26 @@ class AgentCore:
     
     def _extract_product_name(self, text: str) -> str:
         """Extract product name from user input"""
-        # Look for quotes
         import re
+        
+        # Look for quotes
         quoted = re.search(r'["\']([^"\']+)["\']', text)
         if quoted:
             return quoted.group(1)
+        
+        # Pattern: "post X to pinterest" - extract X
+        pattern = r'post\s+(.+?)\s+to\s+(pinterest|twitter|instagram)'
+        match = re.search(pattern, text.lower())
+        if match:
+            product = match.group(1).strip()
+            # Capitalize properly
+            return ' '.join(word.capitalize() for word in product.split())
         
         # Look for keywords
         words = text.split()
         for i, word in enumerate(words):
             if word.lower() in ['product', 'item', 'about']:
                 if i + 1 < len(words):
-                    # Return rest of sentence
                     return ' '.join(words[i+1:])
         
         return ''
@@ -163,25 +171,32 @@ class AgentCore:
         }
         
         if intent['action'] == 'post_to_pinterest':
-            # Multi-step plan
+            # Agent should use its learned knowledge, not hardcoded steps
             plan['steps'] = [
                 {
-                    'tool': 'gumroad_tool',
-                    'function': 'get_products',
-                    'description': 'Load Gumroad products',
-                    'args': {}
-                },
-                {
-                    'tool': 'ai_tool',
-                    'function': 'create_pin_content',
-                    'description': f"Create Pinterest content for '{intent['target']}'",
-                    'args': {'product_name': intent['target']}
-                },
+                    'tool': 'browser_tool',
+                    'function': 'execute_learned_task',
+                    'description': f"Use learned Pinterest knowledge to post '{intent['target']}'",
+                    'args': {
+                        'platform': 'pinterest',
+                        'task': 'create_post',
+                        'product_name': intent['target']
+                    }
+                }
+            ]
+        
+        elif intent['action'] == 'post_to_twitter':
+            # Same - use learned knowledge
+            plan['steps'] = [
                 {
                     'tool': 'browser_tool',
-                    'function': 'post_to_pinterest',
-                    'description': 'Actually post to Pinterest',
-                    'args': {'product_name': intent['target']}
+                    'function': 'execute_learned_task',
+                    'description': f"Use learned Twitter knowledge to post '{intent['target']}'",
+                    'args': {
+                        'platform': 'twitter',
+                        'task': 'create_post',
+                        'product_name': intent['target']
+                    }
                 }
             ]
         
@@ -196,12 +211,23 @@ class AgentCore:
             ]
         
         elif intent['action'] == 'learn_platform':
+            # Agent explores and learns the platform
+            platform_urls = {
+                'pinterest': 'https://www.pinterest.com/pin-builder/',
+                'twitter': 'https://twitter.com/compose/tweet',
+                'instagram': 'https://www.instagram.com/create/style/'
+            }
+            url = platform_urls.get(intent['platform'], f"https://{intent['platform']}.com")
+            
             plan['steps'] = [
                 {
                     'tool': 'browser_tool',
-                    'function': 'learn_pinterest' if intent['platform'] == 'pinterest' else 'navigate_to',
-                    'description': f"Learn how to use {intent['platform']}",
-                    'args': {'url': f"https://{intent['platform']}.com"} if intent['platform'] != 'pinterest' else {}
+                    'function': 'learn_platform',
+                    'description': f"Explore and learn how to use {intent['platform']}",
+                    'args': {
+                        'platform': intent['platform'],
+                        'url': url
+                    }
                 }
             ]
         
