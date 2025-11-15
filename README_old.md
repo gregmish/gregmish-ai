@@ -1,125 +1,64 @@
-# GregMish AI - Actually Works Now# 🤖 GregMish AI - Advanced Local AI Assistant
+# 🤖 GregMish AI - Advanced Local AI Assistant
 
+**Your personal AI assistant with surveillance, voice control, and autonomous capabilities.**
 
-
-Virtual assistant that actually DOES things instead of just talking about them.**Your personal AI assistant with surveillance, voice control, and autonomous capabilities.**
-
-
-
-## What Actually WorksBuilt with Python, GPT4All, and love. 100% free, 100% local, no API keys required.
-
-
-
-✅ **Gumroad Scraping** - Scrapes real products and revenue  ---
-
-✅ **Browser Automation** - Uses YOUR Edge browser with auto-login  
-
-✅ **Multi-step Planning** - Breaks down and executes tasks  ## 🌟 Features
-
-✅ **Structured Results** - Returns JSON, not hallucinations  
-
-### Core AI Capabilities
-
-## Quick Start- 🧠 **Local AI Brain** - GPT4All with Llama 3.2/Orca Mini models
-
-- 💬 **180+ Python Packages** - Elite AI/ML toolkit
-
-### Scrape Gumroad (Proof It Works)- 🎯 **Multiple AI Modes** - Simple agent, voice control, surveillance mode
-
-
-
-```bash### Voice & Audio
-
-python greg_agent.py --test "check gumroad"- 🎤 **Voice Control** - Speak commands naturally
-
-```- 🗣️ **Natural TTS** - Edge-TTS British voices
-
-- 🏴󠁧󠁢󠁥󠁮󠁧󠁿 **Yorkshire Accent Support** - Works with regional accents
-
-Opens YOUR Edge → Scrapes actual products → Saves real data
-
-### Surveillance & Automation
-
-### Chat Mode- 👁️ **OVERSEER Mode** - Constant screen monitoring
-
-- 📸 **Screenshot Analysis** - See what you're working on
-
-```bash- 🎯 **Context Awareness** - AI knows what you're doing
-
-python greg_agent.py --mode chat
-
-```### Content Creation
-
-- 🎬 **TikTok Video Creator** - Automated video generation
-
-### Web Dashboard- 📱 **Social Media Posting** - Multi-platform support
-
-- 🎨 **AI Image Generation** - Stable Diffusion integration
-
-```bash
-
-python dashboard.py### Advanced Features
-
-```- 🧠 **Agent Memory** - ChromaDB vector database
-
-- 🔍 **Web Scraping** - Scrapy, DrissionPage, Apify
-
-Open http://localhost:8000 - Shows REAL scraped data- 🖼️ **Computer Vision** - YOLO, OCR, face detection
-
-- 📊 **Data Science** - Pandas, NumPy, Matplotlib
-
-## Architecture
+Built with Python, GPT4All, and love. 100% free, 100% local, no API keys required.
 
 ---
 
-```
+## 🌟 Features
 
-greg_agent.py           # Single entry point - ONE brain## 🚀 Quick Start
+### Core AI Capabilities
+- 🧠 **Local AI Brain** - GPT4All with Llama 3.2/Orca Mini models
+- 💬 **180+ Python Packages** - Elite AI/ML toolkit
+- 🎯 **Multiple AI Modes** - Simple agent, voice control, surveillance mode
 
-core/agent_core.py      # Planning and execution
+### Voice & Audio
+- 🎤 **Voice Control** - Speak commands naturally
+- 🗣️ **Natural TTS** - Edge-TTS British voices
+- 🏴󠁧󠁢󠁥󠁮󠁧󠁿 **Yorkshire Accent Support** - Works with regional accents
 
-tools/browser_tool.py   # Browser automation that works### Prerequisites
+### Surveillance & Automation
+- 👁️ **OVERSEER Mode** - Constant screen monitoring
+- 📸 **Screenshot Analysis** - See what you're working on
+- 🎯 **Context Awareness** - AI knows what you're doing
 
-```- Python 3.11+
+### Content Creation
+- 🎬 **TikTok Video Creator** - Automated video generation
+- 📱 **Social Media Posting** - Multi-platform support
+- 🎨 **AI Image Generation** - Stable Diffusion integration
 
+### Advanced Features
+- 🧠 **Agent Memory** - ChromaDB vector database
+- 🔍 **Web Scraping** - Scrapy, DrissionPage, Apify
+- 🖼️ **Computer Vision** - YOLO, OCR, face detection
+- 📊 **Data Science** - Pandas, NumPy, Matplotlib
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11+
 - Windows (PowerShell)
-
-No scattered scripts. No fake consciousness. Just working code.- Microphone (for voice features)
-
+- Microphone (for voice features)
 - ~10GB disk space (for AI models)
-
-## Installation
 
 ### Installation
 
-```bash
-
-pip install playwright fastapi uvicorn gpt4all```powershell
-
-playwright install chromium# Clone the repository
-
-```git clone https://github.com/yourusername/gregmish-ai.git
-
+```powershell
+# Clone the repository
+git clone https://github.com/yourusername/gregmish-ai.git
 cd gregmish-ai
 
-## Honest Status
-
 # Create virtual environment
+python -m venv .venv
+.venv\Scripts\Activate.ps1
 
-- ✅ Gumroad scraping: Works  python -m venv .venv
+# Install dependencies
+pip install -r requirements.txt
 
-- ✅ Planning system: Works  .venv\Scripts\Activate.ps1
-
-- ✅ Browser automation: Works  
-
-- ⚠️ Social posting: Partial  # Install dependencies
-
-- ❌ Voice/Autonomous: Not done  pip install -r requirements.txt
-
-
-
-This README tells the truth.# Download AI model (first time only)
-
+# Download AI model (first time only)
 python setup_model.py
 ```
 

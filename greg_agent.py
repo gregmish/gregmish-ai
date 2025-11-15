@@ -60,7 +60,7 @@ def run_web_mode():
     """Web dashboard mode"""
     print("🌐 Starting web dashboard...")
     import uvicorn
-    from vivian_server import app
+    from dashboard import app
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
