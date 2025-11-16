@@ -4,7 +4,7 @@ Dual-AI System: OVERSEER (executor) + VALIDATOR (verifier)
 With real-time commerce, social media, and analytics integration
 """
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
@@ -17,6 +17,7 @@ from typing import List, Dict, Optional
 import os
 import sys
 from pathlib import Path
+import requests
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -485,6 +486,112 @@ async def status():
             status_data["legion"]["has_brain"] = consciousness.brain is not None
     
     return status_data
+
+# ============================================================================
+# WEB INTERFACE & CHAT API
+# ============================================================================
+
+class ChatRequest(BaseModel):
+    message: str
+    history: Optional[List[Dict]] = []
+
+class ChatResponse(BaseModel):
+    response: str
+    timestamp: str
+    latency_ms: int
+
+@app.get("/")
+async def serve_web_interface():
+    """Serve the AI Desktop web interface"""
+    html_path = Path(__file__).parent / "ai_desktop.html"
+    if html_path.exists():
+        return FileResponse(html_path)
+    return JSONResponse({"error": "Web interface not found. Run from project directory."})
+
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "service": "Vivian AI",
+        "model": "Ollama Qwen 2.5",
+        "timestamp": datetime.now().isoformat()
+    }
+
+@app.post("/api/chat", response_model=ChatResponse)
+async def chat_endpoint(request: ChatRequest):
+    """
+    Chat endpoint - connects to Ollama Qwen 2.5
+    Supports conversation history for context
+    """
+    start_time = time.time()
+    
+    try:
+        # Build context from history
+        context_messages = []
+        for msg in request.history[-10:]:  # Last 10 messages for context
+            role = msg.get("role", "user")
+            content = msg.get("content", "")
+            context_messages.append(f"{role}: {content}")
+        
+        context_str = "\n".join(context_messages) if context_messages else ""
+        
+        # Build prompt for Ollama
+        prompt = f"""You are a helpful AI assistant. Answer questions directly and accurately. 
+
+CRITICAL RULES:
+- Give REAL answers, not placeholders
+- Do NOT say "I'm here to help" or generic nonsense
+- Do NOT mention tracking revenue/customers/posts unless actually asked
+- Answer math questions with the actual answer
+- Be concise and direct
+- NO LOOPS, NO PLACEHOLDERS, NO TESTS
+
+Previous conversation:
+{context_str}
+
+User: {request.message}
+"""
+
+        # Call Ollama API
+        ollama_url = "http://localhost:11434/api/generate"
+        ollama_response = requests.post(
+            ollama_url,
+            json={
+                "model": "qwen2.5:latest",
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=60
+        )
+        
+        if ollama_response.status_code == 200:
+            response_data = ollama_response.json()
+            ai_reply = response_data.get("response", "").strip()
+            
+            # Calculate latency
+            latency_ms = int((time.time() - start_time) * 1000)
+            
+            return ChatResponse(
+                response=ai_reply,
+                timestamp=datetime.now().isoformat(),
+                latency_ms=latency_ms
+            )
+        else:
+            raise Exception(f"Ollama returned status {ollama_response.status_code}")
+            
+    except requests.exceptions.ConnectionError:
+        return ChatResponse(
+            response="❌ Cannot connect to Ollama. Please ensure Ollama is running:\n\n1. Check if Ollama service is running\n2. Try: ollama serve\n3. Verify model is installed: ollama list",
+            timestamp=datetime.now().isoformat(),
+            latency_ms=0
+        )
+    except Exception as e:
+        return ChatResponse(
+            response=f"❌ Error: {str(e)}\n\nMake sure:\n1. Ollama is running (ollama serve)\n2. Qwen 2.5 is installed (ollama pull qwen2.5:latest)\n3. Port 11434 is available",
+            timestamp=datetime.now().isoformat(),
+            latency_ms=0
+        )
 
 @app.get("/api/dashboard")
 async def get_dashboard():
